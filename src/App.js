@@ -63,11 +63,11 @@ export default function App() {
                 <CategoryPage />
               </Route>
 
-              <Route exact path="by-category/drama"
+              <Route path="/by-category/drama"
                   render={(props) => <Categories {...props} title={`Drama`} />}   
               />
 
-              <Route exact path="by-category/comedy"
+              <Route path="/by-category/comedy"
                   render={(props) => <Categories {...props} title={`Comedy`} />}   
               />
 
@@ -101,14 +101,8 @@ function CategoryPage() {
       <h2>Categories</h2>
 
       <ul>
-        <li>
-          <Link to={`${path}/comedy`}>Comedy</Link>
-        </li>
-
-        <li>
-          <Link to={`${path}/drama`}>Drama</Link>
-        </li>
-
+      <li><Link to={`${path}/comedy`}>Comedy</Link> </li>
+      <li><Link to={`${url}/drama`}>Drama</Link> </li>
       </ul>
     </div>
   );
