@@ -27,6 +27,7 @@ class EditMovie extends Component {
             ],
             isLoaded: false, 
             error: null,
+            errors: [],
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -35,6 +36,21 @@ class EditMovie extends Component {
 
     handleSubmit = (evt) => {
         evt.preventDefault();
+
+        // client-side validation 
+        let errors = []; 
+        if (this.state.movie.title === "") {
+            errors.push("title");
+        }
+        if (this.state.movie.runtime === "") {
+            errors.push("runtime");
+        }
+
+        this.setState({errors: errors});
+
+        if (errors.length > 0) {
+            return false;
+        }
 
         // get info from form 
         const data = new FormData(evt.target);
@@ -63,6 +79,11 @@ class EditMovie extends Component {
                 [name]: value,
             }
         }))
+    }
+
+    // checks if errors array has error in specified index
+    hasError(key) {
+        return this.state.errors.indexOf(key) !== -1
     }
 
     componentDidMount() {
@@ -132,10 +153,15 @@ class EditMovie extends Component {
 
                         <Input 
                             title={'Title'}
+                            // if error, set className to is-invalid
+                            className={this.hasError("title") ? "is-invalid" : ""}
                             type={'text'}
                             name={'title'}
                             value={movie.title}
                             handleChange={this.handleChange}
+                            // d-none is do no display element
+                            errorDiv={this.hasError("title") ? "text-danger" : "d-none"} 
+                            errorMsg={"Please enter a title"}
                         />
 
                         <Input 
@@ -148,10 +174,13 @@ class EditMovie extends Component {
 
                         <Input 
                             title={'Runtime'}
+                            className={this.hasError("runtime") ? "is-invalid" : ""}
                             type={'text'}
                             name={'runtime'}
                             value={movie.runtime}
                             handleChange={this.handleChange}
+                            errorDiv={this.hasError("runtime") ? "text-danger" : "d-none"} 
+                            errorMsg={"Please add a runtime"}
                         />
 
                         <Select 
