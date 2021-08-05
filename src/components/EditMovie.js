@@ -66,7 +66,6 @@ class EditMovie extends Component {
         const data = new FormData(evt.target);
         // convert to payload (what to post)
         const payload = Object.fromEntries(data.entries()); 
-        console.log(payload)
 
         const requestOptions = {
             method: 'POST',
@@ -76,7 +75,6 @@ class EditMovie extends Component {
         fetch('http://localhost:4000/v1/admin/editmovie', requestOptions)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 // check if data has error
                 if (data.error) {
                     // display error alert 
@@ -150,7 +148,6 @@ class EditMovie extends Component {
     }
 
     confirmDelete = (e) => {
-        console.log("would delete meovie id: ", this.state.movie.id)
 
         confirmAlert({
             title: 'Delete Movie?',
@@ -158,7 +155,27 @@ class EditMovie extends Component {
             buttons: [
               {
                 label: 'Yes',
-                onClick: () => alert('Click Yes')
+                onClick: () => {
+                    fetch("http://localhost:4000/v1/admin/deletemovie/" + this.state.movie.id, {method: 'GET'})
+                        // convert response to json
+                        .then(response => response.json())
+                        // get data and hand it to objects on frontend
+                        .then(data => {
+                            if (data.error) {
+                                this.setState({
+                                    alert: {type: "alert-danger", message: data.error.message}
+                                })
+                            } else {
+                                // take user somewhere else 
+                                this.props.history.push({
+                                    pathname: "/admin"
+                                })
+                                // this.setState({
+                                //     alert: {type: "alert-success", message: "Movie deleted!"}
+                                // })
+                            }
+                        })
+                }
               },
               {
                 label: 'No',
