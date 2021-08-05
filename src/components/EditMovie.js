@@ -1,9 +1,13 @@
 import React, { Component, Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import './EditMovie.css';
 import Input from './form-components/Input'
 import Textarea from './form-components/Textarea'
 import Select from './form-components/Select'
 import Alert from './ui-components/Alert'
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+
 
 class EditMovie extends Component {
 
@@ -53,6 +57,7 @@ class EditMovie extends Component {
 
         this.setState({errors: errors});
 
+        // dont create or submit form if there are errors 
         if (errors.length > 0) {
             return false;
         }
@@ -71,6 +76,7 @@ class EditMovie extends Component {
         fetch('http://localhost:4000/v1/admin/editmovie', requestOptions)
             .then(response => response.json())
             .then(data => {
+                console.log(data);
                 // check if data has error
                 if (data.error) {
                     // display error alert 
@@ -141,6 +147,25 @@ class EditMovie extends Component {
         } else {
             this.setState({isLoaded: true});
         }
+    }
+
+    confirmDelete = (e) => {
+        console.log("would delete meovie id: ", this.state.movie.id)
+
+        confirmAlert({
+            title: 'Delete Movie?',
+            message: 'Are you sure?',
+            buttons: [
+              {
+                label: 'Yes',
+                onClick: () => alert('Click Yes')
+              },
+              {
+                label: 'No',
+                onClick: () => {}
+              }
+            ]
+          });
     }
 
     render() { 
@@ -229,7 +254,21 @@ class EditMovie extends Component {
 
                         <hr />
 
+                        {/* save */}
                         <button className="btn btn-primary">Save</button>
+
+                        {/* cancel */}
+                        <Link to="/admin" className="btn btn-warning ms-1">
+                            Cancel
+                        </Link>
+
+                        {/* delete */}
+                        {movie.id > 0 && (
+                            <a href="#!" onClick={() => this.confirmDelete()}
+                            className="btn btn-danger ms-1">
+                                Delete
+                            </a>
+                        )}
 
                     </form>
 
