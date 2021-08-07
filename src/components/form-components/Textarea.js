@@ -1,7 +1,7 @@
 const Textarea = (props) => {
 
     return (
-            <div className="mb-3">
+        <div className="mb-3">
             <label htmlFor={props.name} className="form-label">
                 {props.title}
             </label>
@@ -9,9 +9,9 @@ const Textarea = (props) => {
                 className="form-control" 
                 id={props.id} 
                 name={props.name} 
-                rows="3" 
+                value={props.value}
                 onChange={props.handleChange}
-                value={props.description}
+                rows={props.rows}
             />
         </div>
     )

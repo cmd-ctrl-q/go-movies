@@ -43,6 +43,7 @@ class EditMovie extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    // handleSubmit in essence submits a request.
     handleSubmit = (evt) => {
         evt.preventDefault();
 
@@ -66,10 +67,15 @@ class EditMovie extends Component {
         const data = new FormData(evt.target);
         // convert to payload (what to post)
         const payload = Object.fromEntries(data.entries()); 
+        const myHeaders = new Headers();
+        // add jwt to header
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", "Bearer " + this.props.jwt);
 
         const requestOptions = {
             method: 'POST',
             body: JSON.stringify(payload),
+            headers: myHeaders,
         }
 
         fetch('http://localhost:4000/v1/admin/editmovie', requestOptions)
@@ -89,7 +95,11 @@ class EditMovie extends Component {
             })
     }
 
+    // anytime there is a change, 
+    // add all previous keys and values, 
+    // then replace the key 'name' with the new value.
     handleChange = (evt) => {
+        console.log("before handleChange() \n", this.state.movie)
         let value = evt.target.value;
         let name = evt.target.name;
         this.setState((prevState) => ({
@@ -106,6 +116,7 @@ class EditMovie extends Component {
     }
 
     componentDidMount() {
+        console.log("JWT in EditMovie componentDidMount", this.props.jwt)
         // gets :id from Route url in App.js
         const id = this.props.match.params.id;
         if (id > 0) {

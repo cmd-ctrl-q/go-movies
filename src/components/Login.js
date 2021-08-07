@@ -88,6 +88,8 @@ export default class Login extends Component {
             })
     }
 
+    // create function that'll handle the handleJWTChange() function 
+    // from parent (App.js). 
     handleJWTChange(jwt) {
         this.props.handleJWTChangeFromParent(jwt);
     }

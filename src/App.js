@@ -119,8 +119,13 @@ export default class App extends Component {
                 <Genres />
               </Route>
 
+              {/* push jwt to the EditMovie component */}
               {/* when id = 0, adding movie, else the movie of the id is being edited */}
-              <Route path="/admin/movie/:id" component={EditMovie} />
+              {/* <Route path="/admin/movie/:id" component={EditMovie} /> */}
+              <Route path="/admin/movie/:id" component={(props) => (
+                <EditMovie {...props} jwt={this.state.jwt} />
+              )} 
+              />
 
               {/* <Route path="/by-category/comedy"
                   render={(props) => <Categories {...props} title={`Comedy`} />}   
