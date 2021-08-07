@@ -85,6 +85,10 @@ export default class App extends Component {
                 )}
 
               </ul>
+              <pre>
+                {/* display state */}
+                {JSON.stringify(this.state, null, 3)}
+              </pre>
             </nav>
           </div>
 
@@ -108,7 +112,7 @@ export default class App extends Component {
 
               {/* route with a props and bind with jwt to lift state */}
               <Route exact path="/login" 
-                component={(props) => <Login {...props} handleJWTChange={this.handleJWTChange} /> }/>
+                component={(props) => <Login {...props} handleJWTChangeFromParent={this.handleJWTChange} /> }/>
 
               {/* forces the router to match exact path */}
               <Route exact path="/genres">

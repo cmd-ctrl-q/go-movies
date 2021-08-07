@@ -13,32 +13,83 @@ export default class Login extends Component {
             alert: {
                 type: "d-none",
                 message: "",
-            }
-        }
+            },
+        };
         // do binding to lift state 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange = (e) => {
-        let value = this.target.value; 
-        let name = this.target.name;
+        let value = e.target.value; 
+        let name = e.target.name;
 
         // prevState prevents the loss of previous state
         this.setState((prevState) => ({
             ...prevState,
             [name]: value,
         }));
-    }
+    };
 
-    // do logic to validate data, provide feedback if problem, 
-    // then make request to backend which will try to authenticate.
     handleSubmit = (e) => {
         // prevents action of an element
         // like sending a request.
         // use like:
         // onSubmit={this.handleSubmit}
         e.preventDefault();
+
+        // do logic to validate data, provide feedback if problem, 
+        // then make request to backend which will try to authenticate.
+        let errors = [];
+        // check for existence of two fields 
+        if (this.state.email === "") {
+            errors.push("email");
+        }
+        if (this.state.password === "") {
+            errors.push("password");
+        }
+
+        this.setState({errors: errors});
+
+        if (errors.length > 0) {
+            return false;
+        }
+
+        // connect to backend
+        const data = new FormData(e.target); 
+        const payload = Object.fromEntries(data.entries()); 
+
+        const requestOptions = {
+            method: 'POST', 
+            body: JSON.stringify(payload), 
+        }
+
+        // fetch 
+        fetch("http://localhost:4000/v1/signin", requestOptions)
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.error) {
+                    this.setState({
+                        alert: {
+                            type: "alert-danger", 
+                            message: data.error.message,
+                        }
+                    })
+                } else {
+                    console.log(data);
+                    // this.handleJWTChange(data);
+                    // get JWT value which is in 0th index of array
+                    this.handleJWTChange(Object.values(data)[0]);
+                    // redirect user 
+                    this.props.history.push({
+                        pathname: "/admin",
+                    })
+                }
+            })
+    }
+
+    handleJWTChange(jwt) {
+        this.props.handleJWTChangeFromParent(jwt);
     }
 
     hasError(key) {
