@@ -77,6 +77,8 @@ export default class Login extends Component {
                     })
                 } else {
                     console.log(data);
+                    // store jwt token in local storage. 
+                    window.localStorage.setItem("jwt", JSON.stringify(Object.values(data)[0]))
                     // this.handleJWTChange(data);
                     // get JWT value which is in 0th index of array
                     this.handleJWTChange(Object.values(data)[0]);

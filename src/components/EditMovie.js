@@ -173,6 +173,11 @@ class EditMovie extends Component {
               {
                 label: 'Yes',
                 onClick: () => {
+                    // delete movie 
+                    const headers = new Headers(); 
+                    headers.append("Content-Type", "application/json");
+                    headers.append("Authorization", "Bearer " + this.props.jwt);
+
                     fetch("http://localhost:4000/v1/admin/deletemovie/" + this.state.movie.id, {method: 'GET'})
                         // convert response to json
                         .then(response => response.json())

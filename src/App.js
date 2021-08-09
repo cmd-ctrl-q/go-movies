@@ -21,6 +21,20 @@ export default class App extends Component {
     this.handleJWTChange(this.handleJWTChange.bind(this));
   }
 
+  componentDidMount() {
+    // check if there is an entry of "jwt" in local storage
+    let t = window.localStorage.getItem("jwt")
+
+    // check if jwt is not null,
+    if (t) {
+      // jwt token exists in local storage, 
+      // if user was logged out, log user back in.
+      if (this.state.jwt === "") {
+        this.setState({jwt: JSON.parse(t)});
+      }
+    }
+  }
+
   // lift jwt to state 
   handleJWTChange = (jwt) => {
     this.setState({jwt: jwt});
@@ -29,6 +43,8 @@ export default class App extends Component {
   // logout function 
   logout = () => {
     this.setState({jwt: ""});
+    // clear local storage 
+    window.localStorage.removeItem("jwt");
   }
 
   render() {
@@ -131,9 +147,17 @@ export default class App extends Component {
                   render={(props) => <Categories {...props} title={`Comedy`} />}   
               /> */}
 
-              <Route path="/admin">
+              {/* <Route path="/admin">
                 <Admin />
-              </Route>
+              </Route> */}
+
+              <Route 
+                path="/admin"
+                component={(props) => (
+                  // push props and jwt to component 
+                  <Admin {...props} jwt={this.state.jwt} />
+                )}
+              />
 
             </Switch>
 
