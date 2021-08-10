@@ -1,4 +1,6 @@
 import React, { Component, Fragment } from 'react';
+import Input from './form-components/Input'
+import { Link } from 'react-router-dom';
 
 export default class GraphQL extends Component {
     constructor(props) {
@@ -11,8 +13,70 @@ export default class GraphQL extends Component {
             alert: {
                 type: "d-none",
                 message: "",
+            },
+            searchTerm: "",
+        }
+        // bind function to constructor
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange = (e) => {
+        let value = e.target.value; 
+        this.setState((prevState) => ({
+                searchTerm: value,
+            })
+        )
+
+        this.performSearch();
+    }
+
+    performSearch() {
+        const payload = `
+        {
+            search(titleContains: "${this.state.searchTerm}") {
+                id
+                title
+                runtime
+                year
+                description
             }
         }
+        `
+        
+
+        // create headers 
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        // create request options 
+        const requestOptions = {
+            method: 'POST', 
+            body: payload, 
+            headers: myHeaders,
+        }
+
+        // make fetch request 
+        fetch("http://localhost:4000/v1/graphql", requestOptions)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                let theList = Object.values(data.data.search);
+                // return so its available in the next .then
+                return theList
+            })
+            .then((theList) => {
+                console.log(theList);
+                // populate state variable 
+                if (theList.length > 0) {
+                    this.setState({
+                        movies: theList,
+                    })
+                } else {
+                    this.setState({
+                        movies: [],
+                    })
+                }
+            })
     }
 
     componentDidMount() {
@@ -41,9 +105,10 @@ export default class GraphQL extends Component {
         }
 
         // make fetch request 
-        fetch("http://localhost:4000/v1/graphql/list", requestOptions)
+        fetch("http://localhost:4000/v1/graphql", requestOptions)
             .then((response) => response.json())
             .then((data) => {
+                console.log(data);
                 let theList = Object.values(data.data.list);
                 // return so its available in the next .then
                 return theList
@@ -64,12 +129,20 @@ export default class GraphQL extends Component {
             <Fragment>
                 <h2>GraphQL</h2>
                 <hr />
+
+                <Input 
+                    title={"Search"} 
+                    type={"text"}
+                    name={"search"}
+                    value={this.state.searchTerm}
+                    handleChange={this.handleChange}
+                />
                 <div className="list-group">
                     {movies.map((m) => (
-                        <a
+                        <Link
                             key={m.id}
                             className="list-group-item list-group-item-action"
-                            href="#!"
+                            to={`/moviesgraphql/${m.id}`}
                         >
                             <strong>{m.title}</strong><br />
                             <small className="text-muted">
@@ -77,7 +150,7 @@ export default class GraphQL extends Component {
                             </small>
                             <br />
                             {m.description.slice(0, 100)}...
-                        </a>
+                        </Link>
                     ))}
                 </div>
             </Fragment>
