@@ -12,7 +12,7 @@ export default class Home extends Component {
                 <img src={Ticket} alt="movie ticket" />
                 <hr />
                 {/* ticket image */}
-                <div className="tickets"></div>
+                {/* <div className="tickets"></div> */}
             </div>
         );
     }
