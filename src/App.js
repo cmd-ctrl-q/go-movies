@@ -9,6 +9,7 @@ import Genres from './components/Genres';
 import OneGenre from './components/OneGenre';
 import EditMovie from './components/EditMovie';
 import Login from './components/Login'
+import GraphQL from './components/graphql';
 
 export default class App extends Component {
   constructor(props) {
@@ -99,6 +100,9 @@ export default class App extends Component {
                     </li>
                   </Fragment>
                 )}
+                <li className="list-group-item">
+                  <Link to="/graphql">GraphQL</Link>
+                </li>
 
               </ul>
               <pre>
@@ -133,6 +137,10 @@ export default class App extends Component {
               {/* forces the router to match exact path */}
               <Route exact path="/genres">
                 <Genres />
+              </Route>
+
+              <Route exact path="/graphql">
+                <GraphQL />
               </Route>
 
               {/* push jwt to the EditMovie component */}
