@@ -65,7 +65,7 @@ export default class Login extends Component {
         }
 
         // fetch 
-        fetch("http://localhost:4000/v1/signin", requestOptions)
+        fetch(`${process.env.REACT_APP_API_URL}/v1/signin`, requestOptions)
             .then((response) => response.json())
             .then((data) => {
                 if (data.error) {

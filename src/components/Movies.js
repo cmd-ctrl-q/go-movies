@@ -12,7 +12,7 @@ export default class Movies extends Component {
     // componentDidMount simulates a call to an api.
     // gets executed after component is rendered on the screen
     componentDidMount() {
-        fetch("http://localhost:4000/v1/movies")
+        fetch(`${process.env.REACT_APP_API_URL}/v1/movies`)
             // .then((response) => response.json())
             .then((response) => {
                 if (response.status !== "200") {

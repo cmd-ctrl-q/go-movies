@@ -78,7 +78,7 @@ class EditMovie extends Component {
             headers: myHeaders,
         }
 
-        fetch('http://localhost:4000/v1/admin/editmovie', requestOptions)
+        fetch(`${process.env.REACT_APP_API_URL}/v1/admin/editmovie`, requestOptions)
             .then(response => response.json())
             .then(data => {
                 // check if data has error
@@ -127,7 +127,7 @@ class EditMovie extends Component {
         const id = this.props.match.params.id;
         if (id > 0) {
             // get movie
-            fetch("http://localhost:4000/v1/movie/" + id)
+            fetch(`${process.env.REACT_APP_API_URL}/v1/movie/` + id)
                 .then((response) => {
                     if (response.status !== "200") {
                         let err = Error; 
@@ -178,7 +178,7 @@ class EditMovie extends Component {
                     headers.append("Content-Type", "application/json");
                     headers.append("Authorization", "Bearer " + this.props.jwt);
 
-                    fetch("http://localhost:4000/v1/admin/deletemovie/" + this.state.movie.id, {method: 'GET'})
+                    fetch(`${process.env.REACT_APP_API_URL}/v1/admin/deletemovie/` + this.state.movie.id, {method: 'GET'})
                         // convert response to json
                         .then(response => response.json())
                         // get data and hand it to objects on frontend
