@@ -24,6 +24,8 @@ function GenresFunc(props) {
                 setGenres(json.genres);
                 setLoaded(true);
             });
+            // without the square brackets, an infinite loop is created as it
+            // continuously tries to fetch data from the backend.
     },[]);
 
     // render 

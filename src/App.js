@@ -4,7 +4,8 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Movies from './components/Movies'
 import Admin from './components/Admin'
 import Home from './components/Home'
-import OneMovie from './components/OneMovie';
+// import OneMovie from './components/OneMovie';
+import OneMovieFunc from './components/OneMovieFunc';
 import OneGenre from './components/OneGenre';
 import EditMovie from './components/EditMovie';
 import Login from './components/Login'
@@ -124,7 +125,7 @@ export default class App extends Component {
                 <Home />
               </Route>
 
-              <Route path="/movies/:id" component={OneMovie} />
+              <Route path="/movies/:id" component={OneMovieFunc} />
 
               <Route path="/moviesgraphql/:id" component={OneMovieGraphQL} />
 
