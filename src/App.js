@@ -6,8 +6,10 @@ import Admin from './components/Admin'
 import Home from './components/Home'
 // import OneMovie from './components/OneMovie';
 import OneMovieFunc from './components/OneMovieFunc';
-import OneGenre from './components/OneGenre';
-import EditMovie from './components/EditMovie';
+// import OneGenre from './components/OneGenre';
+import OneGenreFunc from './components/OneGenreFunc';
+// import EditMovie from './components/EditMovie';
+import EditMovieFunc from './components/EditMovieFunc';
 import Login from './components/Login'
 import GraphQL from './components/GraphQL';
 import OneMovieGraphQL from './components/OneMovieGraphQL';
@@ -133,7 +135,7 @@ export default class App extends Component {
                 <Movies />
               </Route>
 
-              <Route path="/genre/:id" component={OneGenre} />
+              <Route path="/genre/:id" component={OneGenreFunc} />
 
               {/* route with a props and bind with jwt to lift state */}
               <Route exact path="/login" 
@@ -152,7 +154,7 @@ export default class App extends Component {
               {/* when id = 0, adding movie, else the movie of the id is being edited */}
               {/* <Route path="/admin/movie/:id" component={EditMovie} /> */}
               <Route path="/admin/movie/:id" component={(props) => (
-                <EditMovie {...props} jwt={this.state.jwt} />
+                <EditMovieFunc {...props} jwt={this.state.jwt} />
               )} 
               />
 
