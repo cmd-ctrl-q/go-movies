@@ -2,7 +2,8 @@ import React, { Component, Fragment } from 'react';
 // import { HashRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Movies from './components/Movies'
-import Admin from './components/Admin'
+// import Admin from './components/Admin'
+import AdminFunc from './components/AdminFunc'
 import Home from './components/Home'
 // import OneMovie from './components/OneMovie';
 import OneMovieFunc from './components/OneMovieFunc';
@@ -170,7 +171,7 @@ export default class App extends Component {
                 path="/admin"
                 component={(props) => (
                   // push props and jwt to component 
-                  <Admin {...props} jwt={this.state.jwt} />
+                  <AdminFunc {...props} jwt={this.state.jwt} />
                 )}
               />
 
