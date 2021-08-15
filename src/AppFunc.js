@@ -6,7 +6,6 @@ import Home from './components/Home'
 import OneMovieFunc from './components/OneMovieFunc';
 import OneGenreFunc from './components/OneGenreFunc';
 import EditMovieFunc from './components/EditMovieFunc';
-import Login from './components/Login'
 import LoginFunc from './components/LoginFunc';
 import GraphQL from './components/GraphQL';
 import OneMovieGraphQL from './components/OneMovieGraphQL';
@@ -28,7 +27,7 @@ export default function AppFunc(props) {
         }
     }, [jwt])
 
-    function handlejwtChange(jwt) {
+    function handleJWTChange(jwt) {
         setJwt({jwt: jwt});
     }
 
@@ -96,7 +95,7 @@ export default function AppFunc(props) {
               </ul>
               <pre>
                 {/* display state */}
-                {JSON.stringify(state, null, 3)}
+                {JSON.stringify(jwt, null, 3)}
               </pre>
             </nav>
           </div>
@@ -138,7 +137,7 @@ export default function AppFunc(props) {
               {/* when id = 0, adding movie, else the movie of the id is being edited */}
               {/* <Route path="/admin/movie/:id" component={EditMovie} /> */}
               <Route path="/admin/movie/:id" component={(props) => (
-                <EditMovieFunc {...props} jwt={state.jwt} />
+                <EditMovieFunc {...props} jwt={jwt} />
               )} 
               />
 
@@ -154,7 +153,7 @@ export default function AppFunc(props) {
                 path="/admin"
                 component={(props) => (
                   // push props and jwt to component 
-                  <AdminFunc {...props} jwt={state.jwt} />
+                  <AdminFunc {...props} jwt={jwt} />
                 )}
               />
 

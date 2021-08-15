@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 // Display and functinality for Manage Catalogue tab
 function AdminFunc(props) {
-    const [movies, setMovies] = useState([]);
+    let [movies, setMovies] = useState([]);
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
 
